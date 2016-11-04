@@ -1,0 +1,13 @@
+#WindowsLinks:
+*.lnk
+
+#ObjFiles:
+*.OBJ
+
+#OtherFiles:
+GUESS7.asm
+GUESS7.EXE
+hello.asm
+HELLO.EXE
+TEST.asm
+TEST.EXE
