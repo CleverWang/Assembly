@@ -3,12 +3,10 @@ DATA SEGMENT
 	INFO2 DB 0DH,0AH,'1.Only Use The 4 Random Numbers','$'
 	INFO3 DB 0DH,0AH,'2.Only Use +,-,*,/,(,)','$'
 	INFO4 DB 0DH,0AH,31 DUP('-'),'$'
-	;TEXT1 DB 0DH,0AH,'Please Input The Playtime:','$'
 	TEXT2 DB 0DH,0AH,'Here Are Four Numbers:','$'
 	TEXT3 DB 0DH,0AH,'Please Input Your Solution:','$'
 	TEXT4 DB 0DH,0AH,'Great!You Win The Game! :)','$'
 	TEXT5 DB 0DH,0AH,'Wrong Solution!','$'
-	;TEXT6 DB 0DH,0AH,'Sorry,You Lost The Game! :(','$'
 	ENTERTEXT DB 0DH,0AH,'$'
 	EXPREESION DB 20,0,20 DUP(?)
 	FRONTQUEUE DB 20 DUP(?)
@@ -39,26 +37,6 @@ CODE SEGMENT
 		LEA DX,INFO4			;显示INFO4
 		MOV AH,09H
 		INT 21H
-		
-		;LEA DX,TEXT1			;显示TEXT1
-		;MOV AH,09H
-		;INT 21H
-		;MOV AH,1
-		;INT 21H
-		;SUB AL,30H
-		;MOV BH,AL				;保存高位s
-		;MOV AH,1
-		;INT 21H
-		;SUB AL,30H
-		;MOV BL,AL				;保存低位s
-		;MOV AL,BH
-		;MOV	CL,0AH
-		;MUL CL
-		;XOR BH,BH
-		;ADD AX,BX				;获得playtime
-		;LEA BX,PLAYTIME
-		;MOV [BX],AL
-	
 		LEA DI,FOURNUM			;获取FOURNUM的偏移地址
 		MOV AX,4				;4个数是否生成完毕的标志
 		CALL RAND				;调用RAND函数
@@ -175,9 +153,6 @@ CODE SEGMENT
 	LINEOVER:					;判断（）是否匹配
 		CMP DH,DL
 		JNE TEMPOVER
-		
-		;判断时间是否到了
-		
 		LEA BX,EXPREESION
 		MOV DL,[BX+1]			;取表达式的长度值
 		XOR DH,DH
@@ -287,14 +262,8 @@ CODE SEGMENT
 		INC SI
 		JMP LAST
 	
-	DONE:
-		;LEA DX,ENTERTEXT		;输出换行
-		;MOV AH,09H
-		;INT 21H	
-		MOV BYTE PTR [SI],24H	;为前序表达式末尾添加$
-		;LEA DX,FRONTQUEUE		;显示前序表达式
-		;MOV AH,09H
-		;INT 21H	
+	DONE:	
+		MOV BYTE PTR [SI],24H	;为前序表达式末尾添加$	
 		MOV AX,0000H			
 		PUSH AX					;使SP值为0
 		LEA BX,FRONTQUEUE		;取前序表达式序列偏移地址
@@ -349,18 +318,9 @@ CODE SEGMENT
 		INC BX					;前序表达式序列偏移地址指向下一个字符
 		JMP IS24POINTS
 		
-	RESLUT:
-		;LEA DX,ENTERTEXT		;输出换行
-		;MOV AH,09H
-		;INT 21H	
+	RESLUT:	
 		POP DX
 		ADD DL,30H
-		;MOV AH,02H
-		;INT 21H
-		;MOV DX,SP
-		;ADD DL,30H
-		;MOV AH,02H
-		;INT 21H
 		CMP DL,48H
 		JNE OVER
 		LEA DX,TEXT4
